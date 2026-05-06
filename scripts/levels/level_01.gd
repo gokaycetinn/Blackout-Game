@@ -5,10 +5,14 @@ const PLAYER_SCENE := preload("res://scenes/player/player.tscn")
 const CREATURE_SCENE := preload("res://scenes/enemies/creature.tscn")
 const BATTERY_SCENE := preload("res://scenes/items/battery.tscn")
 const AMMO_SCENE := preload("res://scenes/items/ammo.tscn")
+const MEDKIT_SCENE := preload("res://scenes/items/medkit.tscn")
 const HIDING_SPOT_SCENE := preload("res://scenes/objects/hiding_spot.tscn")
 const EXIT_DOOR_SCENE := preload("res://scenes/objects/door_exit.tscn")
 const DOOR_SCENE := preload("res://scenes/objects/door.tscn")
 const LIGHT_SOURCE_SCENE := preload("res://scenes/objects/light_source.tscn")
+const MOTH_CREATURE_SCENE := preload("res://scenes/enemies/moth_creature.tscn")
+const ID_CARD_SCENE := preload("res://scenes/items/id_card.tscn")
+const NOTE_SCENE := preload("res://scenes/items/note.tscn")
 const FACILITY_COMPUTERS = preload("res://assets/sci-fi-facility-asset-pack/computer_spritesheet.png")
 const FACILITY_CRATES = preload("res://assets/sci-fi-facility-asset-pack/crates_spritesheet.png")
 const FACILITY_DOODADS = preload("res://assets/sci-fi-facility-asset-pack/doodads_spritesheet.png")
@@ -54,6 +58,9 @@ func _ready() -> void:
 	_spawn_doors()
 	_spawn_exit()
 	_spawn_enemies()
+	_spawn_moth_creatures()
+	_spawn_id_card()
+	_spawn_notes()
 	_camera_base_offset = camera.offset
 
 
@@ -234,6 +241,22 @@ func _spawn_items() -> void:
 		ammo.global_position = item_position
 		items_root.add_child(ammo)
 
+	# Gizli itemler — sadece fenerle görünür
+	var hidden_battery := BATTERY_SCENE.instantiate()
+	hidden_battery.global_position = Vector2(250, 350)
+	hidden_battery.set("flashlight_only", true)
+	items_root.add_child(hidden_battery)
+
+	var hidden_ammo := AMMO_SCENE.instantiate()
+	hidden_ammo.global_position = Vector2(780, 780)
+	hidden_ammo.set("flashlight_only", true)
+	items_root.add_child(hidden_ammo)
+
+	var hidden_medkit := MEDKIT_SCENE.instantiate()
+	hidden_medkit.global_position = Vector2(1350, 470)
+	hidden_medkit.set("flashlight_only", true)
+	items_root.add_child(hidden_medkit)
+
 
 func _spawn_hiding_spots() -> void:
 	for spot_position in [Vector2(365, 710), Vector2(830, 635)]:
@@ -300,6 +323,74 @@ func _spawn_enemies() -> void:
 		enemy.set("base_view_distance", spec["view_distance"])
 		enemy.set("attack_range", spec["attack_range"])
 		enemies_root.add_child(enemy)
+
+
+func _spawn_moth_creatures() -> void:
+	# Moth yaratıklar karanlık koridorlara yerleştirilir
+	var moth_specs := [
+		{
+			"position": Vector2(530, 490),   # Orta koridor — karanlık bölge
+			"wander_radius": 40.0
+		},
+		{
+			"position": Vector2(870, 420),   # Sağ koridor
+			"wander_radius": 50.0
+		},
+		{
+			"position": Vector2(180, 500),   # Sol alt koridor
+			"wander_radius": 35.0
+		}
+	]
+
+	for spec in moth_specs:
+		var moth = MOTH_CREATURE_SCENE.instantiate()
+		moth.global_position = spec["position"]
+		moth.set("wander_radius", spec["wander_radius"])
+		enemies_root.add_child(moth)
+
+
+func _spawn_id_card() -> void:
+	# ID kart — düşmanların koruduğu zor bir konumda
+	var id_card = ID_CARD_SCENE.instantiate()
+	id_card.global_position = Vector2(1200, 200)  # Sağ üst oda — düşman patrolu var
+	items_root.add_child(id_card)
+
+
+func _spawn_notes() -> void:
+	var notes := [
+		{
+			"position": Vector2(160, 180),
+			"title": "Dr. Yılmaz — Personal Log",
+			"text": "Day 1 at Sublevel-7. They moved us underground after the\ninspectors started asking questions about Project AETHER.\nManagement says the depth is for \"radiation shielding.\"\n\nNobody shields a genetics lab from radiation.\nThey're shielding the world from what we're making."
+		},
+		{
+			"position": Vector2(550, 150),
+			"title": "Incident Report — Week 14",
+			"text": "Subject-09 breached secondary containment at 03:17.\nSecurity responded with standard suppression protocol.\nAll four guards were found dead within 90 seconds.\n\nSubject-09 was not recovered.\n\nThe Board has authorized lethal-grade deterrent systems\nin all corridors. Somehow this makes me feel less safe."
+		},
+		{
+			"position": Vector2(400, 680),
+			"title": "Torn Page — Lab Notebook",
+			"text": "The photosensitive batch (Subjects 22-26) are the worst.\nThey're docile in darkness — almost peaceful. But any\ndirect light source triggers extreme aggression.\n\nDr. Aksoy theorizes they were nocturnal predators\nbefore the gene splicing. The light doesn't scare them.\nIt enrages them. Like we stole their night."
+		},
+		{
+			"position": Vector2(1150, 250),
+			"title": "Emergency Memo — Director Kaya",
+			"text": "TO ALL REMAINING PERSONNEL:\n\nThe main generator is offline. Backup power will last\napproximately 4 hours. Evacuation routes Alpha and\nBravo are compromised.\n\nAll Level-5 keycards have been recalled. If you have\none, guard it with your life. The exit requires it.\n\nDo NOT use flashlights near the purple specimens.\nDo NOT run in the corridors.\nDo NOT make noise.\n\nGod help us all."
+		},
+		{
+			"position": Vector2(1300, 720),
+			"title": "Scribbled Note (Blood-stained)",
+			"text": "If you're reading this, you're still alive.\nThat makes one of us.\n\nThe exit is in the southeast wing. You need a keycard —\nI dropped mine somewhere in the east lab. Use your\nflashlight to find it, the card has a reflective strip.\n\nThe creatures can't see well, but they hear everything.\nWalk slowly. Stay low. Save your battery.\n\nAnd whatever you do — don't shine your light\non the ones with purple eyes.\n\n— Last survivor, Sublevel-7"
+		}
+	]
+
+	for spec in notes:
+		var note = NOTE_SCENE.instantiate()
+		note.global_position = spec["position"]
+		note.set("note_title", spec["title"])
+		note.set("note_text", spec["text"])
+		items_root.add_child(note)
 
 
 

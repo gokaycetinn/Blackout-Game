@@ -15,6 +15,9 @@ signal global_noise_emitted(position: Vector2, strength: float)
 signal gunshot_fired(position: Vector2)
 signal screen_shake_requested(intensity: float)
 signal health_changed(value: int, max_value: int)
+signal id_card_collected
+signal note_opened(title: String, text: String)
+signal note_closed
 
 const LEVEL_SCENE := "res://scenes/levels/level_01.tscn"
 const MENU_SCENE := "res://scenes/ui/main_menu.tscn"
@@ -27,6 +30,7 @@ var player_health: int = HEALTH_MAX
 var is_flashlight_on: bool = false
 var is_game_paused: bool = false
 var is_hidden: bool = false
+var has_id_card: bool = false
 var current_detection: float = 0.0
 var current_prompt: String = ""
 var run_state: String = "menu"
@@ -94,6 +98,7 @@ func reset_run() -> void:
 	player_health = HEALTH_MAX
 	is_flashlight_on = false
 	is_hidden = false
+	has_id_card = false
 	current_detection = 0.0
 	current_prompt = ""
 	run_state = "playing"
@@ -209,6 +214,19 @@ func take_damage(amount: int = 1) -> void:
 func add_health(amount: int = 1) -> void:
 	player_health = min(player_health + amount, HEALTH_MAX)
 	health_changed.emit(player_health, HEALTH_MAX)
+
+
+func collect_id_card() -> void:
+	has_id_card = true
+	id_card_collected.emit()
+
+
+func show_note(title: String, text: String) -> void:
+	note_opened.emit(title, text)
+
+
+func close_note() -> void:
+	note_closed.emit()
 
 
 func request_game_over(reason: String = "The creatures found you.") -> void:
