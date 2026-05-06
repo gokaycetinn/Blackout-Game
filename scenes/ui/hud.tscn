@@ -84,11 +84,22 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.65, 1)
 text = "x 6"
 
-[node name="DetectionLabel" type="Label" parent="TopLeft/TopLeftPanel/TopLeftVBox"]
+[node name="IDCardRow" type="HBoxContainer" parent="TopLeft/TopLeftPanel/TopLeftVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IDCardIcon" type="Label" parent="TopLeft/TopLeftPanel/TopLeftVBox/IDCardRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.65, 1, 1)
+text = "ID CARD"
+
+[node name="IDCardStatus" type="Label" parent="TopLeft/TopLeftPanel/TopLeftVBox/IDCardRow"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.933333, 0.678431, 0.352941, 1)
-text = "CLEAR"
+theme_override_colors/font_color = Color(0.96, 0.28, 0.22, 1)
+text = "✗ Missing"
+
+
 
 [node name="TopRight" type="MarginContainer" parent="."]
 anchors_preset = 10
@@ -290,3 +301,50 @@ text = "Replay"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Main Menu"
+
+[node name="NotePanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -160.0
+offset_right = 240.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="NoteVBox" type="VBoxContainer" parent="NotePanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NoteTitle" type="Label" parent="NotePanel/NoteVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.92, 0.85, 0.6, 1)
+text = "Note"
+horizontal_alignment = 1
+
+[node name="NoteSeparator" type="HSeparator" parent="NotePanel/NoteVBox"]
+layout_mode = 2
+
+[node name="NoteBody" type="Label" parent="NotePanel/NoteVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.82, 0.8, 0.75, 1)
+text = ""
+horizontal_alignment = 0
+autowrap_mode = 3
+
+[node name="NoteCloseHint" type="Label" parent="NotePanel/NoteVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.6, 0.58, 0.5, 0.8)
+text = "Press [E] or [ESC] to close"
+horizontal_alignment = 1
+

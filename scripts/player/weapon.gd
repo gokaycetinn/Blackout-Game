@@ -1,100 +1,41 @@
 extends Node2D
 
-@export var cooldown: float = 0.20
-@export var bullet_range: float = 480.0
+const WEAPON_SPRITE = preload("res://assets/sprites/player/smg.png")
+
+@export var cooldown: float = 0.25
+@export var bullet_range: float = 600.0
 @export var damage: int = 1
-@export var spread_degrees: float = 0.8
+@export var spread_degrees: float = 1.5
 
 @onready var muzzle_flash: PointLight2D = $MuzzleFlash
 
 var _cooldown_left: float = 0.0
 var _flash_timer: float = 0.0
-var _energy_bar_node: Polygon2D = null
+var _visuals: Node2D
 
 
 func _ready() -> void:
 	muzzle_flash.enabled = false
+	muzzle_flash.position = Vector2(28, -2)
+	muzzle_flash.color = Color(1.0, 0.8, 0.4, 1.0)
+	muzzle_flash.texture_scale = 0.35
 	_build_weapon_visual()
 
 
 func _build_weapon_visual() -> void:
-	# --- Gun body (main frame) ---
-	var body := Polygon2D.new()
-	body.polygon = PackedVector2Array([
-		Vector2(-6, -3.5), Vector2(16, -3.5),
-		Vector2(16, 3.5),  Vector2(-6, 3.5)
-	])
-	body.color = Color(0.18, 0.22, 0.28, 1.0)
-	add_child(body)
+	_visuals = Node2D.new()
+	add_child(_visuals)
 
-	# --- Barrel ---
-	var barrel := Polygon2D.new()
-	barrel.polygon = PackedVector2Array([
-		Vector2(16, -2.2), Vector2(28, -2.2),
-		Vector2(28, 2.2),  Vector2(16, 2.2)
-	])
-	barrel.color = Color(0.12, 0.15, 0.20, 1.0)
-	add_child(barrel)
-
-	# --- Barrel tip accent ---
-	var tip := Polygon2D.new()
-	tip.polygon = PackedVector2Array([
-		Vector2(26, -3), Vector2(30, -3),
-		Vector2(30, 3),  Vector2(26, 3)
-	])
-	tip.color = Color(0.42, 0.85, 0.92, 0.9)
-	add_child(tip)
-
-	# --- Grip ---
-	var grip := Polygon2D.new()
-	grip.polygon = PackedVector2Array([
-		Vector2(-3, 3.5), Vector2(4, 3.5),
-		Vector2(3, 11),   Vector2(-4, 11)
-	])
-	grip.color = Color(0.24, 0.20, 0.18, 1.0)
-	add_child(grip)
-
-	# --- Scope rail ---
-	var rail := Polygon2D.new()
-	rail.polygon = PackedVector2Array([
-		Vector2(3, -5.5), Vector2(14, -5.5),
-		Vector2(14, -3.5), Vector2(3, -3.5)
-	])
-	rail.color = Color(0.30, 0.35, 0.42, 1.0)
-	add_child(rail)
-
-	# --- Scope lens ---
-	var lens := Polygon2D.new()
-	lens.polygon = PackedVector2Array([
-		Vector2(6, -5.5), Vector2(12, -5.5),
-		Vector2(12, -3.5), Vector2(6, -3.5)
-	])
-	lens.color = Color(0.42, 0.85, 0.92, 0.75)
-	add_child(lens)
-
-	# --- Energy cell (cyan glow accent on body) ---
-	var cell := Polygon2D.new()
-	cell.polygon = PackedVector2Array([
-		Vector2(1, -2.5), Vector2(10, -2.5),
-		Vector2(10, 2.5), Vector2(1, 2.5)
-	])
-	cell.color = Color(0.35, 0.78, 0.88, 0.4)
-	add_child(cell)
-	_energy_bar_node = cell
-
-	# Subtle pulse animation on energy cell
-	var tw: Tween = create_tween().set_loops()
-	tw.tween_property(cell, "color", Color(0.55, 0.95, 1.0, 0.7), 0.55)
-	tw.tween_property(cell, "color", Color(0.35, 0.78, 0.88, 0.3), 0.55)
-
-	# --- Magazine bump ---
-	var mag := Polygon2D.new()
-	mag.polygon = PackedVector2Array([
-		Vector2(0, 3.5), Vector2(6, 3.5),
-		Vector2(6, 7),   Vector2(0, 7)
-	])
-	mag.color = Color(0.20, 0.24, 0.30, 1.0)
-	add_child(mag)
+	var sprite := Sprite2D.new()
+	sprite.texture = WEAPON_SPRITE
+	
+	# Silahın elde düzgün durması için offset
+	sprite.offset = Vector2(6, -2)
+	
+	# Uygun bir boyuta ölçeklendiriyoruz
+	_visuals.scale = Vector2(1.5, 1.5)
+	
+	_visuals.add_child(sprite)
 
 
 func aim_at(target: Vector2) -> void:
@@ -118,22 +59,27 @@ func try_fire() -> bool:
 		return false
 
 	_cooldown_left = cooldown
-	_flash_timer = 0.10
+	_flash_timer = 0.05
 	muzzle_flash.enabled = true
 	AudioManager.play_sfx("gunshot", global_position)
 	GameManager.emit_gunshot(global_position)
 
-	# Recoil animation
+	# Geri Tepme
 	var tw: Tween = create_tween()
-	tw.tween_property(self, "position", Vector2(-3, 0), 0.05)
-	tw.tween_property(self, "position", Vector2(0, 0), 0.10)
+	tw.tween_property(_visuals, "position", Vector2(-4, -1), 0.03).set_trans(Tween.TRANS_EXPO)
+	tw.parallel().tween_property(_visuals, "rotation", deg_to_rad(-18), 0.03)
+	tw.tween_property(_visuals, "position", Vector2(0, 0), 0.12).set_trans(Tween.TRANS_SPRING)
+	tw.parallel().tween_property(_visuals, "rotation", 0.0, 0.12)
+	
+	GameManager.request_screen_shake(0.25)
 
 	var origin := global_position
 	var aim_vector := get_global_mouse_position() - origin
 	var direction := aim_vector.normalized() if aim_vector.length_squared() > 0.001 else Vector2.RIGHT.rotated(global_rotation)
 	direction = direction.rotated(deg_to_rad(randf_range(-spread_degrees, spread_degrees)))
+	
 	var query := PhysicsRayQueryParameters2D.create(origin, origin + direction * bullet_range)
-	query.exclude = [get_parent()]
+	query.exclude = [get_parent().get_rid()]
 	query.collision_mask = 1 | 4
 
 	var hit := get_world_2d().direct_space_state.intersect_ray(query)
@@ -146,50 +92,37 @@ func try_fire() -> bool:
 		end_point = hit.position
 		_spawn_hit_spark(end_point)
 
-	_spawn_tracer(origin, end_point)
+	_spawn_tracer(origin + direction * 10.0, end_point)
 	return true
 
 
 func _spawn_tracer(start_point: Vector2, end_point: Vector2) -> void:
-	# Glow layer (wide, soft)
-	var glow := Line2D.new()
-	glow.top_level = true
-	glow.z_index = 10
-	glow.default_color = Color(0.42, 0.88, 1.0, 0.22)
-	glow.width = 10.0
-	glow.points = PackedVector2Array([start_point, end_point])
-	get_tree().current_scene.add_child(glow)
-
-	# Core beam (sharp, bright)
 	var tracer := Line2D.new()
 	tracer.top_level = true
 	tracer.z_index = 12
-	tracer.default_color = Color(0.75, 0.97, 1.0, 0.95)
-	tracer.width = 2.2
+	tracer.default_color = Color(1.0, 0.9, 0.6, 0.4)
+	tracer.width = 1.0
 	tracer.points = PackedVector2Array([start_point, end_point])
 	get_tree().current_scene.add_child(tracer)
 
-	var tw: Tween = glow.create_tween()
-	tw.tween_property(glow, "modulate:a", 0.0, 0.11)
-	tw.finished.connect(glow.queue_free)
-
-	var tw2: Tween = tracer.create_tween()
-	tw2.tween_property(tracer, "modulate:a", 0.0, 0.11)
-	tw2.finished.connect(tracer.queue_free)
+	var tw: Tween = tracer.create_tween()
+	tw.tween_property(tracer, "modulate:a", 0.0, 0.04)
+	tw.finished.connect(tracer.queue_free)
 
 
 func _spawn_hit_spark(pos: Vector2) -> void:
-	for i in range(6):
+	for i in range(4):
 		var p := Polygon2D.new()
-		var s := randf_range(1.5, 4.5)
+		var s := randf_range(1.0, 2.5)
 		p.polygon = PackedVector2Array([
-			Vector2(-s, -s), Vector2(s, -s), Vector2(s, s), Vector2(-s, s)
+			Vector2(-s, -s*0.5), Vector2(s, -s*0.5), Vector2(s*0.8, s), Vector2(-s*0.8, s)
 		])
-		p.color = Color(0.6, 0.95, 1.0, 0.95)
-		p.global_position = pos + Vector2(randf_range(-5.0, 5.0), randf_range(-5.0, 5.0))
+		p.color = Color(1.0, 0.8, 0.4, 0.9)
+		p.global_position = pos + Vector2(randf_range(-2.0, 2.0), randf_range(-2.0, 2.0))
+		p.rotation = randf_range(0, TAU)
 		p.top_level = true
 		get_tree().current_scene.add_child(p)
 		var tw: Tween = p.create_tween()
-		tw.tween_property(p, "position", p.position + Vector2(randf_range(-22.0, 22.0), randf_range(-22.0, 22.0)), 0.22)
-		tw.parallel().tween_property(p, "modulate:a", 0.0, 0.22)
+		tw.tween_property(p, "position", p.position + Vector2(randf_range(-15.0, 15.0), randf_range(-15.0, 15.0)), 0.1)
+		tw.parallel().tween_property(p, "modulate:a", 0.0, 0.1)
 		tw.finished.connect(p.queue_free)

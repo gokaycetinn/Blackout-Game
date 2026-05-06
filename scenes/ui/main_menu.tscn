@@ -1,22 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/menus.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/external/marceles/header.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/external/marceles/screen_tiles.png" id="3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu"]
-bg_color = Color(0.055, 0.11, 0.19, 0.86)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.47, 0.74, 0.96, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 12
+[ext_resource type="Script" path="res://scripts/ui/menus.gd" id="1_script"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -25,97 +9,118 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
+script = ExtResource("1_script")
 
 [node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0352941, 0.0823529, 0.145098, 1)
+color = Color(0, 0, 0, 1)
 
-[node name="BackgroundArt" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="ShadowOverlay" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0156863, 0.0313726, 0.054902, 0.5)
-
-[node name="CenterPanel" type="PanelContainer" parent="."]
+[node name="TitleGroup" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -210.0
-offset_right = 250.0
-offset_bottom = 210.0
+offset_left = -400.0
+offset_top = -180.0
+offset_right = 400.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_menu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterPanel"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Banner" type="TextureRect" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("2")
-expand_mode = 1
-stretch_mode = 5
-custom_minimum_size = Vector2(0, 120)
-
-[node name="Title" type="Label" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 52
-theme_override_colors/font_color = Color(0.882353, 0.960784, 1, 1)
+[node name="TitleShadowRed" type="Label" parent="TitleGroup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 0.6)
+theme_override_font_sizes/font_size = 130
 text = "BLACKOUT"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
+[node name="TitleShadowCyan" type="Label" parent="TitleGroup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 1, 1, 0.6)
+theme_override_font_sizes/font_size = 130
+text = "BLACKOUT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleMain" type="Label" parent="TitleGroup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 130
+text = "BLACKOUT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = 0.0
+offset_right = 300.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_constants/line_spacing = 8
+theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.607843, 0.843137, 1, 1)
-text = "Prototype I  |  2D Survival Horror / Stealth"
+text = "SUBLEVEL-7 PROTOCOL"
 horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 
-[node name="Description" type="Label" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.86, 0.92, 0.98, 1)
-text = "Sneak through a blackout-struck facility, manage your flashlight battery, and reach the exit before the creatures lock onto you."
-autowrap_mode = 3
-horizontal_alignment = 1
+[node name="MenuOptions" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -240.0
+offset_right = 420.0
+offset_bottom = -100.0
+grow_vertical = 0
+theme_override_constants/separation = 20
 
-[node name="Controls" type="Label" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56, 0.76, 0.91, 1)
-text = "WASD Move | Shift Run | Ctrl Crouch | F Flashlight | E Interact/Hide | Left Click Fire | Esc Pause"
-autowrap_mode = 3
-horizontal_alignment = 1
-
-[node name="StartButton" type="Button" parent="CenterPanel/VBoxContainer"]
+[node name="StartButton" type="Button" parent="MenuOptions"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Enter The Facility"
+mouse_default_cursor_shape = 2
+text = "ENTER FACILITY"
+alignment = 0
 
-[node name="QuitButton" type="Button" parent="CenterPanel/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="MenuOptions"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Quit"
+mouse_default_cursor_shape = 2
+text = "ABORT"
+alignment = 0

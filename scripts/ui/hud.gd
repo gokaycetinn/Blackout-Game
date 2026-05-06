@@ -4,7 +4,6 @@ const PrototypeArt = preload("res://scripts/systems/prototype_art.gd")
 
 @onready var battery_bar: ProgressBar = %BatteryBar
 @onready var ammo_value: Label = %AmmoValue
-@onready var detection_label: Label = %DetectionLabel
 @onready var stealth_value: Label = %StealthValue
 @onready var prompt_label: Label = %PromptLabel
 @onready var warning_rect: ColorRect = %DetectionWarning
@@ -21,6 +20,12 @@ const PrototypeArt = preload("res://scripts/systems/prototype_art.gd")
 @onready var fail_panel_container: PanelContainer = %FailPanel
 @onready var win_panel_container: PanelContainer = %WinPanel
 @onready var health_bar_container: HBoxContainer = %HealthBar
+@onready var id_card_status: Label = %IDCardStatus
+@onready var note_panel: PanelContainer = %NotePanel
+@onready var note_title_label: Label = %NoteTitle
+@onready var note_body_label: Label = %NoteBody
+
+var _note_open: bool = false
 
 # Kalp ikonları dizisi (ProgressBar yerine)
 var _heart_icons: Array[ColorRect] = []
@@ -38,6 +43,9 @@ func _ready() -> void:
 	GameManager.player_died.connect(_on_player_died)
 	GameManager.level_completed.connect(_on_level_completed)
 	GameManager.health_changed.connect(_on_health_changed)
+	GameManager.id_card_collected.connect(_on_id_card_collected)
+	GameManager.note_opened.connect(_on_note_opened)
+	GameManager.note_closed.connect(_on_note_closed)
 
 	for button in restart_buttons:
 		button.pressed.connect(_on_restart_pressed)
@@ -51,6 +59,7 @@ func _ready() -> void:
 	_on_pause_changed(false)
 	_build_health_icons(GameManager.HEALTH_MAX)
 	_on_health_changed(GameManager.player_health, GameManager.HEALTH_MAX)
+	_update_id_card_status()
 
 
 func _build_health_icons(max_hp: int) -> void:
@@ -124,10 +133,62 @@ func _on_health_changed(value: int, max_value: int) -> void:
 
 
 func _unhandled_input(_event: InputEvent) -> void:
+	if _note_open:
+		if Input.is_action_just_pressed("interact") or Input.is_action_just_pressed("pause"):
+			_close_note()
+		return
 	if Input.is_action_just_pressed("pause"):
 		if fail_panel.visible or win_panel.visible:
 			return
 		GameManager.toggle_pause()
+
+
+func _on_id_card_collected() -> void:
+	_update_id_card_status()
+
+
+func _update_id_card_status() -> void:
+	if GameManager.has_id_card:
+		id_card_status.text = "✓ Collected"
+		id_card_status.add_theme_color_override("font_color", Color(0.38, 0.93, 0.56, 1.0))
+		var tw := create_tween()
+		tw.tween_property(id_card_status, "modulate", Color(1.5, 1.5, 1.5, 1.0), 0.15)
+		tw.tween_property(id_card_status, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.25)
+	else:
+		id_card_status.text = "✗ Missing"
+		id_card_status.add_theme_color_override("font_color", Color(0.96, 0.28, 0.22, 1.0))
+
+
+func _on_note_opened(title: String, text: String) -> void:
+	note_title_label.text = title
+	note_body_label.text = text
+	note_panel.visible = true
+	_note_open = true
+	get_tree().paused = true
+	# Açılma animasyonu
+	note_panel.modulate = Color(1, 1, 1, 0)
+	note_panel.scale = Vector2(0.85, 0.85)
+	var tw := create_tween()
+	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tw.tween_property(note_panel, "modulate:a", 1.0, 0.25)
+	tw.parallel().tween_property(note_panel, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
+
+
+func _on_note_closed() -> void:
+	_close_note()
+
+
+func _close_note() -> void:
+	if not _note_open:
+		return
+	_note_open = false
+	var tw := create_tween()
+	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tw.tween_property(note_panel, "modulate:a", 0.0, 0.15)
+	tw.tween_callback(func():
+		note_panel.visible = false
+		get_tree().paused = false
+	)
 
 
 func _process(_delta: float) -> void:
@@ -182,15 +243,7 @@ func _on_ammo_changed(value: int) -> void:
 
 func _on_detection_changed(value: float) -> void:
 	warning_rect.modulate.a = clampf(value / 100.0, 0.0, 0.45)
-	if value >= 90.0:
-		detection_label.text = "⚠ LOCKED"
-		detection_label.add_theme_color_override("font_color", Color(1.0, 0.18, 0.18, 1.0))
-	elif value >= 45.0:
-		detection_label.text = "● SEEN"
-		detection_label.add_theme_color_override("font_color", Color(1.0, 0.62, 0.22, 1.0))
-	else:
-		detection_label.text = "✔ CLEAR"
-		detection_label.add_theme_color_override("font_color", Color(0.38, 0.9, 0.56, 1.0))
+	# DetectionLabel kaldırıldı
 
 
 func _on_prompt_changed(text: String) -> void:
@@ -237,7 +290,7 @@ func _apply_skin() -> void:
 		Color(0, 0, 0, 0.55)
 	)
 
-	top_left_panel.add_theme_stylebox_override("panel", dark_panel)
+	top_left_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	stealth_box.add_theme_stylebox_override("panel", dark_panel.duplicate())
 	pause_panel_container.add_theme_stylebox_override("panel", modal_panel)
 	fail_panel_container.add_theme_stylebox_override("panel", modal_panel.duplicate())
@@ -247,4 +300,11 @@ func _apply_skin() -> void:
 		2,
 		14,
 		Color(0, 0, 0, 0.45)
+	))
+	note_panel.add_theme_stylebox_override("panel", PrototypeArt.create_stylebox(
+		Color(0.06, 0.055, 0.04, 0.96),
+		Color(0.55, 0.48, 0.3, 0.9),
+		2,
+		16,
+		Color(0, 0, 0, 0.5)
 	))
