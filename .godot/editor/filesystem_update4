@@ -1,0 +1,11 @@
+res://scripts/levels/level_01.gd
+res://scripts/objects/door_exit.gd
+res://scripts/systems/game_manager.gd
+res://scripts/ui/hud.gd
+res://scripts/items/ammo.gd
+res://scripts/items/battery.gd
+res://scripts/items/id_card.gd
+res://scripts/items/medkit.gd
+res://scripts/ui/menus.gd
+res://scripts/player/weapon.gd
+res://scripts/player/player.gd
