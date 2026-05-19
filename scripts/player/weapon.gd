@@ -81,6 +81,7 @@ func try_fire() -> bool:
 	var query := PhysicsRayQueryParameters2D.create(origin, origin + direction * bullet_range)
 	query.exclude = [get_parent().get_rid()]
 	query.collision_mask = 1 | 4
+	query.collide_with_areas = true
 
 	var hit := get_world_2d().direct_space_state.intersect_ray(query)
 	var end_point := origin + direction * bullet_range

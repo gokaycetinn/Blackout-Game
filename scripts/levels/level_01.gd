@@ -33,6 +33,7 @@ const MAP_HEIGHT := 960.0
 @onready var camera: Camera2D = $Camera2D
 
 var player: CharacterBody2D
+var next_level_path := GameManager.LEVEL_02_SCENE
 var _camera_trauma: float = 0.0
 var _camera_base_offset: Vector2 = Vector2.ZERO
 var _tile_size: int = 32

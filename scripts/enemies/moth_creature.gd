@@ -36,6 +36,7 @@ var _aura_light: PointLight2D = null
 
 
 func _ready() -> void:
+	add_to_group("enemies")
 	player = GameManager.player
 	_spawn_position = global_position
 	_wander_target = global_position

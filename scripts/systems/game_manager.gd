@@ -20,6 +20,7 @@ signal note_opened(title: String, text: String)
 signal note_closed
 
 const LEVEL_SCENE := "res://scenes/levels/level_01.tscn"
+const LEVEL_02_SCENE := "res://scenes/levels/level_02.tscn"
 const MENU_SCENE := "res://scenes/ui/main_menu.tscn"
 const BATTERY_MAX := 100.0
 const HEALTH_MAX := 3
@@ -240,6 +241,19 @@ func request_game_over(reason: String = "The creatures found you.") -> void:
 
 func request_level_complete() -> void:
 	if run_state != "playing":
+		return
+	var next_level_path := ""
+	if level != null:
+		var next_level_value = level.get("next_level_path")
+		if typeof(next_level_value) == TYPE_STRING:
+			next_level_path = next_level_value
+	if not next_level_path.is_empty():
+		run_state = "transitioning"
+		is_game_paused = false
+		get_tree().paused = false
+		level_completed.emit()
+		await get_tree().create_timer(0.85).timeout
+		get_tree().change_scene_to_file(next_level_path)
 		return
 	run_state = "won"
 	is_game_paused = false

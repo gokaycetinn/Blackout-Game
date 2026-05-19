@@ -262,6 +262,8 @@ func _on_player_died(reason: String) -> void:
 
 
 func _on_level_completed() -> void:
+	if GameManager.run_state == "transitioning":
+		return
 	win_panel.visible = true
 	pause_panel.visible = false
 

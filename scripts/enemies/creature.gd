@@ -47,6 +47,7 @@ var _base_body_scale: Vector2 = Vector2.ONE * 2.25
 
 
 func _ready() -> void:
+	add_to_group("enemies")
 	body_visual.texture = _create_frame_texture(ENEMY_SPRITESHEET, Rect2i(16, 0, 16, 16))
 	body_visual.scale = _base_body_scale
 	player = GameManager.player
