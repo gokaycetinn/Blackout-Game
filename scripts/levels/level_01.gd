@@ -361,28 +361,13 @@ func _spawn_notes() -> void:
 	var notes := [
 		{
 			"position": Vector2(160, 180),
-			"title": "Dr. Yılmaz — Personal Log",
-			"text": "Day 1 at Sublevel-7. They moved us underground after the\ninspectors started asking questions about Project AETHER.\nManagement says the depth is for \"radiation shielding.\"\n\nNobody shields a genetics lab from radiation.\nThey're shielding the world from what we're making."
-		},
-		{
-			"position": Vector2(550, 150),
-			"title": "Incident Report — Week 14",
-			"text": "Subject-09 breached secondary containment at 03:17.\nSecurity responded with standard suppression protocol.\nAll four guards were found dead within 90 seconds.\n\nSubject-09 was not recovered.\n\nThe Board has authorized lethal-grade deterrent systems\nin all corridors. Somehow this makes me feel less safe."
-		},
-		{
-			"position": Vector2(400, 680),
-			"title": "Torn Page — Lab Notebook",
-			"text": "The photosensitive batch (Subjects 22-26) are the worst.\nThey're docile in darkness — almost peaceful. But any\ndirect light source triggers extreme aggression.\n\nDr. Aksoy theorizes they were nocturnal predators\nbefore the gene splicing. The light doesn't scare them.\nIt enrages them. Like we stole their night."
+			"title": "AETHER Orientation Log",
+			"text": "Project AETHER was moved below Sublevel-7 after the first breach.\nThe specimens react to light, noise, and panic faster than security can respond.\n\nFind a Level-5 keycard. The southeast exit is the only route still connected to the lift."
 		},
 		{
 			"position": Vector2(1150, 250),
-			"title": "Emergency Memo — Director Kaya",
-			"text": "TO ALL REMAINING PERSONNEL:\n\nThe main generator is offline. Backup power will last\napproximately 4 hours. Evacuation routes Alpha and\nBravo are compromised.\n\nAll Level-5 keycards have been recalled. If you have\none, guard it with your life. The exit requires it.\n\nDo NOT use flashlights near the purple specimens.\nDo NOT run in the corridors.\nDo NOT make noise.\n\nGod help us all."
-		},
-		{
-			"position": Vector2(1300, 720),
-			"title": "Scribbled Note (Blood-stained)",
-			"text": "If you're reading this, you're still alive.\nThat makes one of us.\n\nThe exit is in the southeast wing. You need a keycard —\nI dropped mine somewhere in the east lab. Use your\nflashlight to find it, the card has a reflective strip.\n\nThe creatures can't see well, but they hear everything.\nWalk slowly. Stay low. Save your battery.\n\nAnd whatever you do — don't shine your light\non the ones with purple eyes.\n\n— Last survivor, Sublevel-7"
+			"title": "Emergency Memo",
+			"text": "Backup power is failing. The lift will not open without the keycard.\nMove low, save battery, and avoid loud movement.\n\nIf the lift drops instead of rising, the origin chamber is below. Restore the generators there and seal the source."
 		}
 	]
 

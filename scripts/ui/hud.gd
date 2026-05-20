@@ -11,6 +11,7 @@ const PrototypeArt = preload("res://scripts/systems/prototype_art.gd")
 @onready var pause_panel: PanelContainer = %PausePanel
 @onready var fail_panel: PanelContainer = %FailPanel
 @onready var win_panel: PanelContainer = %WinPanel
+@onready var end_backdrop: ColorRect = %EndBackdrop
 @onready var fail_reason_label: Label = %FailReason
 @onready var restart_buttons: Array[Button] = [%PauseRestartButton, %FailRestartButton, %WinRestartButton]
 @onready var menu_buttons: Array[Button] = [%PauseMenuButton, %FailMenuButton, %WinMenuButton]
@@ -264,8 +265,25 @@ func _on_player_died(reason: String) -> void:
 func _on_level_completed() -> void:
 	if GameManager.run_state == "transitioning":
 		return
+	end_backdrop.visible = true
 	win_panel.visible = true
 	pause_panel.visible = false
+	prompt_label.visible = false
+	crosshair.visible = false
+	warning_rect.modulate.a = 0.0
+	top_left_panel.visible = false
+	stealth_box.visible = false
+	end_backdrop.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	win_panel.modulate = Color.WHITE
+	win_panel.scale = Vector2.ONE
+	await get_tree().process_frame
+	var viewport_size := get_viewport().get_visible_rect().size
+	var start_x := maxf((viewport_size.x - win_panel.size.x) * 0.5, 0.0)
+	var target_y := maxf((viewport_size.y - win_panel.size.y) * 0.5, 32.0)
+	win_panel.global_position = Vector2(start_x, viewport_size.y + 48.0)
+	var tw := create_tween()
+	tw.tween_property(end_backdrop, "modulate:a", 1.0, 0.28)
+	tw.parallel().tween_property(win_panel, "global_position:y", target_y, 10.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func _on_restart_pressed() -> void:
@@ -296,13 +314,7 @@ func _apply_skin() -> void:
 	stealth_box.add_theme_stylebox_override("panel", dark_panel.duplicate())
 	pause_panel_container.add_theme_stylebox_override("panel", modal_panel)
 	fail_panel_container.add_theme_stylebox_override("panel", modal_panel.duplicate())
-	win_panel_container.add_theme_stylebox_override("panel", PrototypeArt.create_stylebox(
-		Color(0.04, 0.055, 0.055, 0.94),
-		Color(0.2, 0.54, 0.42, 0.95),
-		2,
-		14,
-		Color(0, 0, 0, 0.45)
-	))
+	win_panel_container.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	note_panel.add_theme_stylebox_override("panel", PrototypeArt.create_stylebox(
 		Color(0.06, 0.055, 0.04, 0.96),
 		Color(0.55, 0.48, 0.3, 0.9),

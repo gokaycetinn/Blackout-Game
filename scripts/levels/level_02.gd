@@ -6,7 +6,7 @@ const CREATURE_SCENE := preload("res://scenes/enemies/creature.tscn")
 const MOTH_CREATURE_SCENE := preload("res://scenes/enemies/moth_creature.tscn")
 const SIREN_SCENE := preload("res://scenes/enemies/siren.tscn")
 # mimic removed from project
-const QUEEN_SCENE := preload("res://scenes/enemies/queen.tscn")
+const SPIDER_BOSS_SCENE := preload("res://scenes/enemies/queen.tscn")
 const BATTERY_SCENE := preload("res://scenes/items/battery.tscn")
 const AMMO_SCENE := preload("res://scenes/items/ammo.tscn")
 const MEDKIT_SCENE := preload("res://scenes/items/medkit.tscn")
@@ -21,6 +21,7 @@ const FACILITY_COMPUTERS = preload("res://assets/sci-fi-facility-asset-pack/comp
 const FACILITY_CRATES = preload("res://assets/sci-fi-facility-asset-pack/crates_spritesheet.png")
 const FACILITY_DOODADS = preload("res://assets/sci-fi-facility-asset-pack/doodads_spritesheet.png")
 const FACILITY_SCREEN = preload("res://assets/sci-fi-facility-asset-pack/computer_screen_large.png")
+const LEVEL2_GENERATOR_TEXTURE = preload("res://assets/generator/generator.png")
 
 const MAP_WIDTH := 1920.0
 const MAP_HEIGHT := 1120.0
@@ -47,12 +48,14 @@ var _escape_started: bool = false
 var _escape_time_left: float = 72.0
 var _exit_door: Area2D
 var _escape_label: Label
+var _boss_defeated: bool = false
 
 
 func _ready() -> void:
     GameManager.reset_run()
     GameManager.register_level(self)
     GameManager.screen_shake_requested.connect(_on_screen_shake)
+    GameManager.level_completed.connect(_on_level_completed)
     AudioManager.play_music("Sublevel_Maintenance.mp3", true)
     _setup_tile_layers()
     _build_floor()
@@ -89,9 +92,12 @@ func _process(delta: float) -> void:
 
     if _escape_started and GameManager.run_state == "playing":
         _escape_time_left = maxf(_escape_time_left - delta, 0.0)
-        _escape_label.text = "ESCAPE  %02d" % ceili(_escape_time_left)
+        if _boss_defeated:
+            _escape_label.text = "ESCAPE  %02d" % ceili(_escape_time_left)
+        else:
+            _escape_label.text = "DEFEAT BOSS  %02d" % ceili(_escape_time_left)
         if _escape_time_left <= 0.0:
-            GameManager.request_game_over("The Queen crushed the lift before it could seal.")
+            GameManager.request_game_over("The spider boss crushed the lift before it could seal.")
 
 
 func _build_floor() -> void:
@@ -243,6 +249,7 @@ func _spawn_doors() -> void:
 func _spawn_exit() -> void:
     _exit_door = HIVE_EXIT_SCENE.instantiate()
     _exit_door.global_position = Vector2(1780, 880)
+    _exit_door.set("locked_prompt", "[E] Main lift has no power")
     objects_root.add_child(_exit_door)
 
 
@@ -265,6 +272,8 @@ func _spawn_generators() -> void:
         generator.set("generator_id", spec[0])
         generator.set("label_text", spec[1])
         generator.set("accent_color", spec[3])
+        generator.set("generator_texture", LEVEL2_GENERATOR_TEXTURE)
+        generator.set("generator_visual_scale", 0.06)
         generator.connect("activated", Callable(self, "_on_generator_activated"))
         objects_root.add_child(generator)
 
@@ -305,23 +314,13 @@ func _spawn_notes() -> void:
     var notes := [
         {
             "position": Vector2(175, 220),
-            "title": "Elevator Impact Log",
-            "text": "The Sublevel-7 lift did not rise. It fell.\nEmergency brakes caught for three seconds, then the whole shaft screamed.\n\nYou are below the listed facility map now.\nThe walls here are warm."
+            "title": "Lift Impact Log",
+            "text": "The lift did not rise. It fell into Sublevel-12: origin containment.\n\nAETHER started here. The hive below is feeding the outbreak above.\n\nFind and restore all three generators first. Their hum will wake the main lift, but the spider boss must be killed before the doors can seal."
         },
         {
             "position": Vector2(1180, 155),
             "title": "AETHER Core Memo",
-            "text": "Sublevel-12 is not storage. It is origin containment.\nThe specimens above were symptoms. The hive below is the source.\n\nRestore three auxiliary generators to wake the main lift.\nDo it fast. Sound carries through the ribs."
-        },
-        {
-            "position": Vector2(1260, 760),
-            "title": "Siren Handling",
-            "text": "Subject S-03 has no visual response.\nRunning, gunfire, dropped tools, even panic breathing pull it across the wing.\n\nWhen it pulses, stop moving. Let the echo pass."
-        },
-        {
-            "position": Vector2(1640, 210),
-            "title": "Nest Wall Warning",
-            "text": "The small supplies twitch under direct light.\nDo not pick up anything that breathes.\n\nIf it unfolds, shoot once and move. The Queen listens when they scream."
+            "text": "Restore all three generators to wake the lift, then kill the spider boss before the doors will seal.\n\nWhen the boss dies, run for the lift. The chamber will not hold for long."
         }
     ]
     for spec in notes:
@@ -345,19 +344,33 @@ func _start_escape_sequence() -> void:
     if _escape_started:
         return
     _escape_started = true
+    _boss_defeated = false
     _escape_time_left = 72.0
     if _exit_door and _exit_door.has_method("set_powered"):
-        _exit_door.set_powered(true)
+        _exit_door.set_powered(false)
+        _exit_door.set("locked_prompt", "[E] Defeat the spider boss first")
     _set_hud_generator_status()
     _escape_label.visible = true
-    _escape_label.text = "ESCAPE  72"
+    _escape_label.text = "DEFEAT BOSS  72"
     GameManager.emit_noise(player.global_position, 1200.0)
     GameManager.request_screen_shake(1.5)
-    var queen = QUEEN_SCENE.instantiate()
-    queen.global_position = Vector2(930, 980)
-    enemies_root.add_child(queen)
+    var spider_boss = SPIDER_BOSS_SCENE.instantiate()
+    spider_boss.global_position = Vector2(930, 980)
+    spider_boss.defeated.connect(_on_spider_boss_defeated)
+    enemies_root.add_child(spider_boss)
     for light in environment_lights.get_children():
         light.set("light_energy", 2.15)
+
+
+func _on_spider_boss_defeated() -> void:
+    if _boss_defeated:
+        return
+    _boss_defeated = true
+    if _exit_door and _exit_door.has_method("set_powered"):
+        _exit_door.set_powered(true)
+    _escape_label.text = "ESCAPE  %02d" % ceili(_escape_time_left)
+    _set_hud_generator_status()
+    GameManager.request_screen_shake(1.1)
 
 
 func _setup_escape_overlay() -> void:
@@ -365,11 +378,16 @@ func _setup_escape_overlay() -> void:
     add_child(canvas)
     _escape_label = Label.new()
     _escape_label.visible = false
-    _escape_label.position = Vector2(24, 118)
+    _escape_label.position = Vector2(680, 24)
     _escape_label.text = "POWER 0/3"
     _escape_label.add_theme_font_size_override("font_size", 22)
     _escape_label.add_theme_color_override("font_color", Color(1.0, 0.42, 0.22, 1.0))
     canvas.add_child(_escape_label)
+
+
+func _on_level_completed() -> void:
+    if _escape_label:
+        _escape_label.visible = false
 
 
 func _set_hud_generator_status() -> void:
@@ -379,8 +397,12 @@ func _set_hud_generator_status() -> void:
         label.text = "GENERATORS"
     if status:
         if _escape_started:
-            status.text = "Lift Powered"
-            status.add_theme_color_override("font_color", Color(0.38, 0.93, 0.56, 1.0))
+            if _boss_defeated:
+                status.text = "Lift Ready"
+                status.add_theme_color_override("font_color", Color(0.38, 0.93, 0.56, 1.0))
+            else:
+                status.text = "Boss Active"
+                status.add_theme_color_override("font_color", Color(0.96, 0.42, 0.22, 1.0))
         else:
             status.text = "%d/%d Online" % [_activated_generators.size(), REQUIRED_GENERATORS]
             status.add_theme_color_override("font_color", Color(0.96, 0.72, 0.22, 1.0))

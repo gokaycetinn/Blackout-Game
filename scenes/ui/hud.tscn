@@ -260,6 +260,17 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Main Menu"
 
+[node name="EndBackdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+visible = false
+
 [node name="WinPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 anchors_preset = 8
@@ -267,35 +278,69 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -210.0
-offset_top = -120.0
-offset_right = 210.0
-offset_bottom = 120.0
+offset_left = -360.0
+offset_top = -230.0
+offset_right = 360.0
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
 visible = false
 
 [node name="WinVBox" type="VBoxContainer" parent="WinPanel"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
+
+[node name="WinKicker" type="Label" parent="WinPanel/WinVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.38, 0.95, 0.82, 1)
+text = "AETHER CONTAINMENT // COMPLETE"
+horizontal_alignment = 1
 
 [node name="WinTitle" type="Label" parent="WinPanel/WinVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_colors/font_color = Color(0.376471, 0.886275, 0.596078, 1)
-text = "Escape Successful"
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(0.9, 1, 0.94, 1)
+text = "ESCAPE CONFIRMED"
 horizontal_alignment = 1
+
+[node name="WinSeparator" type="HSeparator" parent="WinPanel/WinVBox"]
+layout_mode = 2
 
 [node name="WinBody" type="Label" parent="WinPanel/WinVBox"]
 layout_mode = 2
-text = "Alex reached the exit with whatever battery and ammo remained."
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.78, 0.88, 0.84, 1)
+text = "The lift seals. The origin chamber burns out beneath the facility. Alex reaches the surface before dawn, carrying the only proof that BLACKOUT ever happened."
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="WinCreditsHeader" type="Label" parent="WinPanel/WinVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.4, 0.72, 0.66, 1)
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="WinCredits" type="Label" parent="WinPanel/WinVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.72, 0.82, 0.78, 1)
+text = "Alex escaped the facility alive.\nThe lift sealed behind him, and the nightmare below was left in the dark.\nThanks for playing."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="WinStatus" type="Label" parent="WinPanel/WinVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.38, 0.95, 0.82, 0.9)
+text = "RUN STATUS: SURVIVED"
+horizontal_alignment = 1
 
 [node name="WinRestartButton" type="Button" parent="WinPanel/WinVBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Replay"
+text = "New Run"
 
 [node name="WinMenuButton" type="Button" parent="WinPanel/WinVBox"]
 unique_name_in_owner = true
