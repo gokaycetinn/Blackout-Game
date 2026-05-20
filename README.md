@@ -101,29 +101,26 @@ In order to unlock the heavy security gates and reach the exit, you must locate 
 
 ---
 
-## 🕷️ Boss Action & Animations
+## 🕷️ The Queen's Death Sequence
 
-The Queen Spider Boss exhibits fluid pixel-art animations representing her different combat states:
+To emphasize her mechanical defeat in Level 2, the Queen Spider Boss features a dramatic, multi-frame collapse and death animation, transitioning from her imposing active state to a curled, lifeless form:
 
 <div align="center">
   <table>
     <tr>
-      <td align="center" width="25%"><b>Idle State</b></td>
-      <td align="center" width="25%"><b>Walking State</b></td>
-      <td align="center" width="25%"><b>Attack Phase</b></td>
-      <td align="center" width="25%"><b>Defeated / Death</b></td>
+      <td align="center" width="33%"><b>1. Active / Battle State</b></td>
+      <td align="center" width="33%"><b>2. Collapsing / Hurt State</b></td>
+      <td align="center" width="33%"><b>3. Defeated / Lifeless State</b></td>
     </tr>
     <tr>
-      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/idle/actions0081.png" width="140px" alt="Boss Idle"></td>
-      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/walk/actions0001.png" width="140px" alt="Boss Walk"></td>
-      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/attack02/actions0287.png" width="140px" alt="Boss Attack"></td>
-      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/death/actions0174.png" width="140px" alt="Boss Death"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/idle/actions0081.png" width="180px" alt="Active Queen"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/death/actions0185.png" width="180px" alt="Collapsing Queen"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/death/actions0217.png" width="180px" alt="Defeated Queen"></td>
     </tr>
     <tr>
       <td align="center"><code>idle/actions0081.png</code></td>
-      <td align="center"><code>walk/actions0001.png</code></td>
-      <td align="center"><code>attack02/actions0287.png</code></td>
-      <td align="center"><code>death/actions0174.png</code></td>
+      <td align="center"><code>death/actions0185.png</code></td>
+      <td align="center"><code>death/actions0217.png</code></td>
     </tr>
   </table>
 </div>
