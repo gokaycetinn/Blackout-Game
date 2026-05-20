@@ -20,7 +20,7 @@ var _sprite: AnimatedSprite2D
 var _health_fill: ColorRect
 var _health_bar: Control
 
-const SPIDER_ACTIONS_PATH := "res://assets/sprites/spider boss/Spider Actions"
+const SpiderBossAssets := preload("res://scripts/enemies/spider_boss_assets.gd")
 
 
 func _ready() -> void:
@@ -96,26 +96,21 @@ func _build_visual() -> void:
 	_sprite.offset = Vector2(0, -18)
 	_sprite.z_index = 7
 	add_child(_sprite)
-	_add_animation("idle", "idle", 8.0, true)
-	_add_animation("walk", "walk", 13.0, true)
-	_add_animation("attack", "attack02", 18.0, false)
-	_add_animation("hurt", "high damage", 18.0, false)
-	_add_animation("death", "death", 14.0, false)
+	_add_animation("idle", SpiderBossAssets.IDLE_FRAMES, 8.0, true)
+	_add_animation("walk", SpiderBossAssets.WALK_FRAMES, 13.0, true)
+	_add_animation("attack", SpiderBossAssets.ATTACK_FRAMES, 18.0, false)
+	_add_animation("hurt", SpiderBossAssets.HURT_FRAMES, 18.0, false)
+	_add_animation("death", SpiderBossAssets.DEATH_FRAMES, 14.0, false)
 	_set_animation("idle")
 
 
-func _add_animation(animation_name: String, folder_name: String, speed: float, loops: bool) -> void:
+func _add_animation(animation_name: String, textures: Array, speed: float, loops: bool) -> void:
 	var frames := _sprite.sprite_frames
 	frames.add_animation(animation_name)
 	frames.set_animation_speed(animation_name, speed)
 	frames.set_animation_loop(animation_name, loops)
 
-	var files := DirAccess.get_files_at("%s/%s" % [SPIDER_ACTIONS_PATH, folder_name])
-	files.sort()
-	for file_name in files:
-		if file_name.get_extension().to_lower() != "png":
-			continue
-		var texture = load("%s/%s/%s" % [SPIDER_ACTIONS_PATH, folder_name, file_name])
+	for texture in textures:
 		if texture:
 			frames.add_frame(animation_name, texture)
 

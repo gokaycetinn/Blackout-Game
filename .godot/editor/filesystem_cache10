@@ -1,10 +1,10 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1779284024
+::res://::1779301301
 aia_cookies.txt::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
 implementation_plan.md::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
 level_02_ideas.md::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
 marceles_cookies.txt::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
-README.md::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
+README.md::TextFile::-1::1779287348::0::1::::<><><>0<>0<><>::
 rg_cookies.txt::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
 ::res://assets/::1779269146
 ASSET_REHBERI.md::TextFile::-1::1779267582::0::1::::<><><>0<>0<><>::
@@ -512,14 +512,14 @@ projectile.tscn::PackedScene::-1::1779267582::0::1::::<><><>0<>0<><>::res://scri
 ::res://scenes/player/::1779267582
 player.tscn::PackedScene::-1::1779267582::0::1::::<><><>0<>0<><>::res://scripts/player/player.gd<>res://scripts/player/flashlight.gd<>res://scripts/player/weapon.gd
 ::res://scenes/ui/::1779267582
-hud.tscn::PackedScene::-1::1779270089::0::1::::<><><>0<>0<><>::res://scripts/ui/hud.gd
+hud.tscn::PackedScene::-1::1779284715::0::1::::<><><>0<>0<><>::res://scripts/ui/hud.gd
 main_menu.tscn::PackedScene::-1::1779267582::0::1::::<><><>0<>0<><>::res://scripts/ui/menus.gd
 ::res://scripts/::1779267582
 ::res://scripts/enemies/::1779267603
 creature.gd::GDScript::5806797314848505978::1779267582::0::1::::<>CharacterBody2D<><>0<>0<><>::
 enemy_states.gd::GDScript::8199302581567445842::1779267582::0::1::::<>RefCounted<><>0<>0<><>::
 moth_creature.gd::GDScript::6507811142277675398::1779267582::0::1::::<>CharacterBody2D<><>0<>0<><>::
-queen.gd::GDScript::229924076638231102::1779269719::0::1::::<>CharacterBody2D<><>0<>0<><>::
+queen.gd::GDScript::229924076638231102::1779284486::0::1::::<>CharacterBody2D<><>0<>0<><>::
 siren.gd::GDScript::2949752159063281474::1779267582::0::1::::<>CharacterBody2D<><>0<>0<><>::
 ::res://scripts/items/::1779267603
 ammo.gd::GDScript::6492436626516146115::1779267582::0::1::::<>Area2D<><>0<>0<><>::
@@ -529,7 +529,7 @@ medkit.gd::GDScript::6549288720961025749::1779267582::0::1::::<>Area2D<><>0<>0<>
 note.gd::GDScript::3811954454431569685::1779267582::0::1::::<>Area2D<><>0<>0<><>::
 ::res://scripts/levels/::1779267603
 level_01.gd::GDScript::1294251391833977999::1779270049::0::1::::<>Node2D<><>0<>0<><>::
-level_02.gd::GDScript::1449877405300325629::1779270061::0::1::::<>Node2D<><>0<>0<><>::
+level_02.gd::GDScript::1449877405300325629::1779284406::0::1::::<>Node2D<><>0<>0<><>::
 ::res://scripts/objects/::1779267603
 door.gd::GDScript::1178305625143851116::1779267582::0::1::::<>StaticBody2D<><>0<>0<><>::
 door_exit.gd::GDScript::4457103147868147734::1779267582::0::1::::<>Area2D<><>0<>0<><>::
@@ -548,5 +548,5 @@ audio_manager.gd::GDScript::245205443627869266::1779267582::0::1::::<>Node<><>0<
 game_manager.gd::GDScript::1820084539799081321::1779267582::0::1::::<>Node<><>0<>0<><>::
 prototype_art.gd::GDScript::7974822334336998168::1779267582::0::1::::<>RefCounted<><>0<>0<><>::
 ::res://scripts/ui/::1779267582
-hud.gd::GDScript::2694816389104379170::1779270105::0::1::::<>CanvasLayer<><>0<>0<><>::
+hud.gd::GDScript::2694816389104379170::1779284435::0::1::::<>CanvasLayer<><>0<>0<><>::
 menus.gd::GDScript::5112923940690979135::1779267582::0::1::::<>Control<><>0<>0<><>::
