@@ -1,8 +1,8 @@
 # 🌑 BLACKOUT
 
 <div align="center">
-  <img src="assets/external/kamisama/header.png" alt="Blackout Header Banner" width="100%">
-  <p><i>Karanlıkta fısıldayan gölgeler, sönmek üzere olan bir fener ve derinlerden gelen ayak sesleri...</i></p>
+  <img src="assets/ui/main_menu_bg.png" alt="Blackout Main Menu" width="100%">
+  <p><i>Flickering light, dying batteries, and claws echoing through the pitch-black corridors...</i></p>
   
   <p>
     <img src="https://img.shields.io/badge/Engine-Godot%204.x-blue?style=for-the-badge&logo=godotengine&logoColor=white" alt="Godot Engine">
@@ -13,87 +13,87 @@
 
 ---
 
-**BLACKOUT**, Godot 4 motoru ile geliştirilen, yüksek gerilimli bir **2D Top-Down Survival-Horror / Stealth** oyunudur. Oyuncu olarak, terk edilmiş, karanlık bir askeri araştırma tesisinde uyanan bir deneği canlandırıyorsunuz. Sınırlı kaynaklarınızla tesisin derinliklerindeki tehditlerden kaçınmalı, sistemleri yeniden aktif hale getirmeli ve tesisin en alt katında sizi bekleyen korkunç sırla (Kraliçe Örümcek) yüzleşmelisiniz.
+**BLACKOUT** is a tense, atmospheric **2D Top-Down Survival-Horror & Stealth** prototype built on the Godot 4 engine. Players assume the role of an **Inspector** sent to investigate a sudden power failure and blackout at a remote subterranean research facility. Soon, you find yourself trapped with horrific biological threats. Armed only with a flashlight and a submachine gun, you must restore power to the console systems, manage your scarce resources, and confront the monstrous Queen spider lurking in the deepest sector.
 
 ---
 
-## 🎮 Oynanış Videosu (Gameplay Demo)
+## 🎮 Gameplay Demo (Video)
 
-Aşağıdaki alanda oyunumuzun atmosferik oynanış dinamiklerini, fener pil mekaniklerini ve boss savaşını gösteren **Blackout.mp4** demosunu izleyebilirsiniz:
+Watch the atmospheric gameplay dynamics, tactical stealth mechanics, flashlight battery drainage, and intense boss encounter below:
 
 <div align="center">
   <video src="Blackout.mp4" width="100%" controls alt="Blackout Gameplay Demo"></video>
-  <p><i>(Demo videosu klasöre yüklendiğinde yukarıdaki oynatıcı üzerinden doğrudan izlenebilir olacaktır.)</i></p>
+  <p><i>(Once the demo video file <b>Blackout.mp4</b> is added to the repository, it will be playable directly in this section.)</i></p>
 </div>
 
 ---
 
-## 🌟 Önemli Mekanikler & Özellikler
+## 🌟 Key Gameplay Systems
 
-### 🔦 Gelişmiş Aydınlatma ve Pil Yönetimi
-Tesis tamamen karanlığa gömülmüştür. Tek güvenceniz olan el feneriniz sınırlı pil kapasitesine sahiptir. Pil düzeyi azaldıkça feneriniz titremeye ve kararmaya başlar. Çevreyi çok iyi araştırarak pilleri toplamanız gerekir.
+### 🔦 Dynamic Flashlight & Battery Management
+The facility is shrouded in complete darkness. Your primary tool is a flashlight that runs on batteries. As power drains, the beam will flicker and grow dim. You must scan rooms carefully to locate spare batteries to survive the darkness.
 
-### 🤫 Stealth (Gizlilik) ve Ses Algılama AI
-Düşmanlar sadece sizi görmekle kalmaz, çıkardığınız sesleri de dinler:
-- **Eğilerek Yürüme (Ctrl):** Ses çıkarmaz ancak hareketinizi yavaşlatır.
-- **Koşma (Shift):** Hızlı hareket etmenizi sağlar fakat çok ses çıkarır ve düşmanların sizi hızla fark etmesine yol açar.
-- **Ateş Etme / Çatışma:** Çevredeki tüm yaratıkları anında üzerinize çeker.
+### 🤫 Stealth & Noise-Detection AI
+Enemies respond dynamically to the sounds you make and your visibility level:
+- **Crouch-walking (Ctrl):** Generates zero noise, lowering your visibility but reducing movement speed.
+- **Sprinting (Shift):** Allows rapid evasion but creates significant noise, instantly alerting nearby guards.
+- **Combat / Gunfire:** Discharging your weapon alerts and attracts all hostiles in the sector immediately.
 
-### 🔋 Güç Jeneratörleri ve İlerleme
-Tesisten kaçabilmek için ana kapıları açan güç konsollarını devreye sokmalısınız. Jeneratörleri aktif etmek gürültülü bir süreçtir ve yaratıkların dikkatini çeker.
+### 🔋 Power Generators
+In order to unlock the heavy security gates and reach the exit, you must locate and interact with the **Generator Consoles** to restore power. Activating them is a loud process that draws unwanted attention.
 
 ---
 
-## 👥 Karakterler ve Düşmanlar
+## 👥 Characters & Enemies
 
-### 🧑‍🚀 Ana Karakter (The Inmate / Kid)
+### 🕵️‍♂️ The Inspector (Player Character)
 <table align="center">
   <tr>
     <td width="30%" align="center">
-      <img src="assets/sci-fi-facility-asset-pack/the_kid_spritesheet.png" width="120px" alt="The Inmate"><br>
-      <code>the_kid_spritesheet.png</code>
+      <img src="assets/sci-fi-facility-asset-pack/inspector_spritesheet.png" width="150px" alt="The Inspector"><br>
+      <code>inspector_spritesheet.png</code>
     </td>
     <td width="70%">
-      <strong>Denek #404 (Oyuncu)</strong><br><br>
-      Tesisin alt katlarındaki hücreden kaçmayı başaran genç bir denek. Fiziksel olarak savunmasızdır ancak hızlı refleksleri ve çevikliği sayesinde düşmanlardan sıyrılabilir.
+      <strong>The Inspector</strong><br><br>
+      A high-ranking security investigator sent to investigate the silent facility. Highly trained but physically vulnerable to the horrors in the dark.
       <ul>
-        <li><strong>Yetenekler:</strong> Dash (Space) ile engellerden kaçma, sessiz yürüme, el feneri kullanma.</li>
-        <li><strong>Ekipman:</strong> Flashlight, SMG (hafif makineli tüfek - sınırlı mermi), Sağlık Kiti.</li>
+        <li><strong>Abilities:</strong> 8-directional movement, Sprinting, Crouch-stealth, and a quick evasion Dash (Space).</li>
+        <li><strong>Inventory:</strong> Flashlight (battery-powered), SMG (Submachine gun with limited ammo), and Medkits.</li>
       </ul>
     </td>
   </tr>
 </table>
 
-### 🚨 Tesis Muhafızları (Corrupted Guards)
+### 🚨 Corrupted Facility Guards
 <table align="center">
   <tr>
     <td width="30%" align="center">
-      <img src="assets/sci-fi-facility-asset-pack/guard_orange_spritesheet.png" width="120px" alt="Orange Guard"><br>
+      <img src="assets/sci-fi-facility-asset-pack/guard_orange_spritesheet.png" width="150px" alt="Corrupted Guard"><br>
       <code>guard_orange_spritesheet.png</code>
     </td>
     <td width="70%">
-      <strong>Mutasyona Uğramış Koruyucular</strong><br><br>
-      Tesisin eski güvenlik personeli. Parazit bulaşması sebebiyle akıllarını yitirmiş ve sadece ses ile harekete duyarlı vahşi yaratıklara dönüşmüşlerdir.
+      <strong>Orange Guard</strong><br><br>
+      Former facility security personnel mutated by an airborne pathogen. They patrol the corridors blindly, relying on advanced hearing and movement detection to hunt down survivors.
       <ul>
-        <li><strong>Davranışlar:</strong> Devriye gezerler, ses duyduklarında şüphelenip araştırma durumuna geçerler ve oyuncuyu gördüklerinde koşarak saldırırlar.</li>
+        <li><strong>AI States:</strong> Patrol, Suspicious, Investigating, Chasing, and Searching.</li>
       </ul>
     </td>
   </tr>
 </table>
 
-### 🕷️ Dev Örümcek Boss (The Queen)
+### 🕷️ The Queen (Spider Boss)
 <table align="center">
   <tr>
-    <td width="35%" align="center">
-      <img src="assets/sprites/spider boss/Spider Actions/walk/actions0001.png" width="220px" alt="Spider Boss (Queen)"><br>
-      <code>Spider Boss (Queen) Frame 1</code>
+    <td width="30%" align="center">
+      <img src="assets/sprites/spider boss/Spider Actions/walk/actions0001.png" width="180px" alt="The Queen Walk"><br>
+      <code>The Queen (Spider Boss)</code>
     </td>
-    <td width="65%">
-      <strong>The Queen (Kraliçe Yaratık)</strong><br><br>
-      Tesisin en alt katında (Level 2) yuvalanmış, mutasyonun kaynağı olan devasa örümcek kraliçe. Üst seviye yapay zekaya ve ölümcül saldırı setlerine sahiptir.
+    <td width="70%">
+      <strong>The Queen</strong><br><br>
+      A massive mutated arachnid queen nesting in the deep maintenance levels (Level 2). She possesses a dedicated health bar UI, dynamic combat phases, and lethal melee slash attacks.
       <ul>
-        <li><strong>Fazlar & Saldırılar:</strong> Idle, Walk, Low/High Damage tepkileri ve 3 farklı özel yakın/uzak dövüş saldırısı.</li>
-        <li><strong>Arayüz:</strong> Ekranda beliren özel Boss Lifebar (Sağlık Barı) ile canı anlık olarak takip edilebilir.</li>
+        <li><strong>Advanced Combat AI:</strong> Transitions dynamically through walking, lunging, staggering, and attacking.</li>
+        <li><strong>Special Attack:</strong> Unleashes a wide claw slash causing screen-shakes and massive damage.</li>
       </ul>
     </td>
   </tr>
@@ -101,59 +101,63 @@ Tesisten kaçabilmek için ana kapıları açan güç konsollarını devreye sok
 
 ---
 
-## 📸 Ekran Görüntüleri
+## 🕷️ Boss Action & Animations
+
+The Queen Spider Boss exhibits fluid pixel-art animations representing her different combat states:
 
 <div align="center">
   <table>
     <tr>
-      <td align="center"><b>Ana Menü Tasarımı</b></td>
-      <td align="center"><b>Tesis Atmosferi & Oynanış</b></td>
+      <td align="center" width="25%"><b>Idle State</b></td>
+      <td align="center" width="25%"><b>Walking State</b></td>
+      <td align="center" width="25%"><b>Attack Phase</b></td>
+      <td align="center" width="25%"><b>Defeated / Death</b></td>
     </tr>
     <tr>
-      <td><img src="assets/external/kamisama/og_image.png" width="100%" alt="Main Menu Screen"></td>
-      <td><img src="assets/external/kamisama/screenshot_1.png" width="100%" alt="Gameplay Screen 1"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/idle/actions0081.png" width="140px" alt="Boss Idle"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/walk/actions0001.png" width="140px" alt="Boss Walk"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/attack02/actions0287.png" width="140px" alt="Boss Attack"></td>
+      <td align="center"><img src="assets/sprites/spider boss/Spider Actions/death/actions0174.png" width="140px" alt="Boss Death"></td>
     </tr>
     <tr>
-      <td align="center"><b>Karanlık ve Keşif</b></td>
-      <td align="center"><b>Tehlikeli Karşılaşmalar</b></td>
-    </tr>
-    <tr>
-      <td><img src="assets/external/kamisama/screenshot_2.png" width="100%" alt="Gameplay Screen 2"></td>
-      <td><img src="assets/external/marceles/screen_lab.png" width="100%" alt="Laboratory Screen"></td>
+      <td align="center"><code>idle/actions0081.png</code></td>
+      <td align="center"><code>walk/actions0001.png</code></td>
+      <td align="center"><code>attack02/actions0287.png</code></td>
+      <td align="center"><code>death/actions0174.png</code></td>
     </tr>
   </table>
 </div>
 
 ---
 
-## ⌨️ Kontroller
+## ⌨️ Controls
 
-| Tuş | Eylem | Açıklama |
+| Input | Action | Description |
 | :--- | :--- | :--- |
-| **W / A / S / D** | Hareket | Karakteri 8 yönlü hareket ettirir. |
-| **Shift** | Koşma | Hareketi hızlandırır ancak ses çıkarır (AI çeker). |
-| **Ctrl** | Eğilme | Tamamen sessiz hareket sağlar, tespit edilmeyi zorlaştırır. |
-| **Space** | Dash (Atılma) | Tehlikeli anlarda hızlıca yön değiştirip kaçmanızı sağlar. |
-| **F** | El Feneri | Feneri açar/kapatır (Açıkken AI'ın sizi görmesi kolaylaşır). |
-| **E** | Etkileşim | Eşya toplar, saklanma dolaplarına girer veya jeneratörleri başlatır. |
-| **Sol Tık** | Ateş Et | SMG ile hafif makineli tüfekle ateş eder. Çok fazla gürültü yayar! |
-| **Esc** | Duraklat | Oyunu durdurur ve duraklatma menüsünü açar. |
+| **W / A / S / D** | Movement | Moves the Inspector in 8 directions. |
+| **Shift** | Sprint | Moves faster but emits high noise levels (alerts AI). |
+| **Ctrl** | Crouch | Walks silently, lowering visibility and noise profile. |
+| **Space** | Dash | Performs a swift directional dodge to evade close-range strikes. |
+| **F** | Flashlight | Toggles the flashlight beam ON/OFF. |
+| **E** | Interact | Collects items, hides in lockers, or operates consoles. |
+| **Left Click** | Shoot | Fires the SMG weapon (creates loud deafening noise). |
+| **Esc** | Pause | Halts gameplay and opens the options/pause menu. |
 
 ---
 
-## 🔧 Kurulum ve Çalıştırma
+## 🔧 Installation & Setup
 
-1. **Godot Engine** sürümünün kurulu olduğundan emin olun (Godot 4.x önerilir).
-2. Projeyi bilgisayarınıza klonlayın:
+1. Install **Godot Engine 4.x** (version 4.6 or later recommended).
+2. Clone the repository to your local directory:
    ```bash
    git clone https://github.com/gokaycetinn/Blackout.git
    ```
-3. Godot Project Manager üzerinden projeyi içe aktarın (`project.godot` dosyasını seçin).
-4. Oyunu başlatmak için ana sahne olan `scenes/main.tscn` veya `scenes/ui/main_menu.tscn` sahnesini çalıştırın.
+3. Open Godot Project Manager, select **Import**, and choose the `project.godot` file.
+4. Run the project from the main menu scene: `scenes/ui/main_menu.tscn` or `scenes/main.tscn`.
 
 ---
 
 <div align="center">
-  <p><b>BLACKOUT</b> bir CENG361 Final Projesidir.</p>
-  <p>© 2026. Tüm hakları saklıdır.</p>
+  <p><b>BLACKOUT</b> is a CENG361 Final Project.</p>
+  <p>© 2026. All Rights Reserved.</p>
 </div>
